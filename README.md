@@ -62,3 +62,49 @@ There are two ways to think about this keyword in js:
 
 
 When growOld is defined as an arrow function, it captures the `this` from the `Person` class `constructor's` scope. This captured `this` permanently refers to the `instance of the Person object`.  Therefore, no matter how or where `growOld` is called—whether directly on the object `(person.growOld())` or indirectly via a variable `(firstClassFuncVariable())`—`this` will always correctly point to the person instance, allowing it to increment the correct _age property.
+
+
+
+### 23. readOnly modifier
+
+
+```
+type Point = {
+    x: number
+    y: number
+}
+
+const point: Point = {
+    x:4,
+    y: 6
+}
+
+point.x = 5 // is allowed because we can access the members of a const point object. 
+To prevent this we need can add a readOnly modifier to this. 
+
+Note: readOnly modifier is only for compile time checking, not for runtime js.
+
+same for we can add readOnly modifier for a class member variable.
+```
+
+### 24. union types
+
+Def: A union type describes a value that can be one of several types. We use the vertical bar (|) to separate each type, so number | string | boolean is the type of a value that can be a number, a string, or a boolean.
+
+```
+function greet(welcome: string | string []){
+    let line = '';
+
+    if(typeOf welcome === string ) {
+        line = welcome.trim();
+    }
+    else {
+        line = welcome.map(str => str.trim()).join(' ');
+    }
+    return line;
+}
+
+greet("hello");
+greet(["hello world"]);
+greet(55555); // if no union then this will be an error.
+```
