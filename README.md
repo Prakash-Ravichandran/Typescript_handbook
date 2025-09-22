@@ -4,7 +4,7 @@
 #### 8. Structural typing
 
 Duck Typing:
-```
+```tsx
 let point2D: Point2D = {x:0, y:10};
 let point3D: Point3D = {x:0, y:10, z: 20};
 
@@ -18,7 +18,7 @@ If it walks like a duck, speaks like duck - then it must be a duck.
 ## Section2 - intermediate
 
 ### 22. Lexical this:
-```
+```tsx
 class Person {
     private _age:number;
     constructor (age:number){
@@ -68,7 +68,7 @@ When growOld is defined as an arrow function, it captures the `this` from the `P
 ### 23. readOnly modifier
 
 
-```
+```tsx
 type Point = {
     x: number
     y: number
@@ -91,7 +91,7 @@ same for we can add readOnly modifier for a class member variable.
 
 Def: A union type describes a value that can be one of several types. We use the vertical bar (|) to separate each type, so number | string | boolean is the type of a value that can be a number, a string, or a boolean.
 
-```
+```tsx
 function greet(welcome: string | string []){
     let line = '';
 
