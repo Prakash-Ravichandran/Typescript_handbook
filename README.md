@@ -93,7 +93,18 @@ same for we can add readOnly modifier for a class member variable.
 Def: A union type describes a value that can be one of several types. We use the vertical bar (|) to separate each type, so number | string | boolean is the type of a value that can be a number, a string, or a boolean.
 
 ```tsx
-function greet(welcome: string | string []){
+type Result = string | number | boolean;
+let outcome: Result = "Success"; // Valid
+outcome = 100; // Valid
+outcome = true; // Valid
+// outcome = {}; // Error: Type '{}' is not assignable to type 'Result'
+```
+
+```tsx
+
+type Greet = string | string[];
+
+function greet(welcome: Greet){
     let line = '';
 
     if(typeOf welcome === string ) {
@@ -109,3 +120,91 @@ greet("hello");
 greet(["hello world"]);
 greet(55555); // if no union then this will be an error.
 ```
+
+### 25. Literal types
+
+Literal types allow you to specify the exact value a variable or property can hold, rather than a broader type like string or number. They are essentially "single-value" types.
+
+
+```tsx
+type Direction = "north" | "south" | "east" | "west"; // This is a union of string literals
+let myDirection: Direction = "north"; // Valid
+// let anotherDirection: Direction = "up"; // Error: Type '"up"' is not assignable to type 'Direction'.
+```
+
+### 26. Type Narraowing
+
+[Typescript doc](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates)
+
+1. `typeOf` Operator narrowing for all primitve types of javascript.
+
+```tsx
+function handlePrimitive(value: string | number | boolean | bigint | symbol | undefined) {
+    if (typeof value === "string") {
+        // value is string
+        return value.toUpperCase();
+    } else if (typeof value === "number") {
+        // value is number
+        return value.toFixed(2);
+    } else if (typeof value === "boolean") {
+        // value is boolean
+        return value ? "Yes" : "No";
+    } else if (typeof value === "bigint") {
+        // value is bigint
+        return value.toString() + "n";
+    } else if (typeof value === "symbol") {
+        // value is symbol
+        return value.toString();
+    } else if (typeof value === "undefined") {
+        // value is undefined
+        return "No value";
+    }
+}
+```
+
+2. `instanceOf` operator narrowing for objects of a class.
+
+```tsx
+class Dog {
+    bark() {
+        return "Woof!";
+    }
+}
+
+class Cat {
+    meow() {
+        return "Meow!";
+    }
+}
+```
+
+
+```tsx
+function speak(animal: Dog | Cat) {
+    if (animal instanceof Dog) {
+        // animal is narrowed to Dog
+        animal.bark();
+    } else if (animal instanceof Cat) {
+        // animal is narrowed to Cat
+        animal.meow();
+    }
+}
+```
+
+3. `in` operator narrowing 
+
+For the type Square, type Rectangle - we cannot use the typeOf operator, or the instanceOf operator because they are not created using classes. hence use `in` operator for narrowing their shape.
+
+```tsx
+type Square = { size: number };
+type Rectangle = { width: number; height: number };
+
+function area(shape: Square | Rectangle) {
+    if ("size" in shape) {
+        // shape is Square
+        return shape.size * shape.size;
+    } else {
+        // shape is Rectangle
+        return shape.width * shape.height;
+    }
+}
