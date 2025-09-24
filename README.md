@@ -251,14 +251,187 @@ type ValidationFailure = {
 
 type ValidationResult = ValidationSuccess | ValidationFailure;
 
-
 function logResult(result: ValidationResult) {
-    if(result.isValid) {
-        console.log('success validated value;', result.validatedValue);
-    }
-    if(result.isValid === false) {
-        console.log('success validated value;', result.errorReason);
-    }
-
+  if (result.isValid) {
+    console.log("success validated value;", result.validatedValue);
+  }
+  if (result.isValid === false) {
+    console.log("success validated value;", result.errorReason);
+  }
 }
+```
+
+### 28. Class Parameter properties
+
+typescript allows us to add public to the member variables of a class to remove duplication of member variables.
+
+
+```tsx
+class Person {
+    public name: string;
+    public age: number;
+
+    constructor(name : string, age: number) {
+        this.name = name;
+        this.age = age;
+    }
+}
+```
+
+
+```tsx
+class Person {
+  constructor(public name: string, public age: number) {
+      this.name = name;
+      this.age = age;
+  }
+}
+
+const Adam = new Person('adam', 2000);
+console.log(Adam.name);
+```
+
+### 29. Strict Compiler Option
+
+On using `npx tsx --init` the default of strict will be `strict: true`. 
+Setting `strict: true` all the strict family properties are set to true. We still can enable true/false for individual properties.
+
+```tsx
+strict: Enables all strict type-checking options.
+strictNullChecks: Ensures values cannot be null or undefined unless explicitly allowed.
+strictBindCallApply: Checks arguments for bind, call, and apply methods.
+strictFunctionTypes: Checks function type compatibility more strictly.
+strictPropertyInitialization: Ensures class properties are initialized in the constructor.
+noImplicitAny: Disallows variables and parameters with an implicit any type.
+noImplicitThis: Ensures this expressions have a type.
+alwaysStrict: Parses files in strict mode and emits "use strict" for each file.
+strictBuiltinIteratorReturn: It is a TypeScript compiler option introduced to improve type safety for built-in iterator-returning methods (like Array.prototype.keys, values, entries, etc.).When enabled, it ensures that the return type of these built-in iterator methods is strictly typed, preventing accidental misuse and improving type inference in code that uses iterators.
+```
+
+Examples 1:
+
+strict: false
+
+```tsx
+function add(first, second) { // typescript infers arguments as any
+  return second + first;
+}
+
+add(1, 2); // 3
+add("Hello", "World"); // World Hello
+```
+
+strict: true
+
+```tsx
+function add(first, second) { // compile time error is shown for this.
+  return second + first;
+}
+
+function add(first:number , second: number) { // compile time error is shown for this.
+  return second + first;
+}
+
+add(1, 2); // 3
+```
+
+Examples 2:
+
+strict: false
+
+
+```tsx
+class Point {
+  x: number;
+  y: number;
+  
+  move(x:number, y: number){
+    this.x += x;
+    this.y +=y;
+  }
+}
+
+const point = new Point(); // ts no allows a point with having x as 'NAN', y as 'NAN'
+point.move(1,3);
+console.log(point.x, point.y); // 'NAN' 'NAN'
+```
+
+strict: true
+
+```tsx
+class Point {
+  x: number;
+  y: number;
+
+  constructor(x:number, y:number){
+    this.x = x;
+    this.y = y;
+  }
+  
+  move(x:number, y: number){
+    this.x += x;
+    this.y +=y;
+  }
+}
+
+const point = new Point(1, 3);  // ts here enforces us to have a initial point
+point.move(2,5);
+console.log(point.x, point.y); // 3, 8
+```
+
+### 30. Null vs undefined
+
+Method throws `null` for a non-matching string.
+
+```tsx
+
+function logVowels(value: string){
+    return value.match(/[aeiou]/gi);
+}
+
+
+console.log(logVowels('helllo')); 
+console.log(logVowels('sky')); 
+```
+
+
+Example 2: null vs undefined
+```tsx
+
+console.log(null == null); // true
+console.log(undefined == null); // true
+console.log(undefined == undefined); // true
+
+// falsly values are not null
+console.log(false == null); // false
+console.log('' == null); // false
+console.log(0 == null); // false
+ 
+
+// we can group the null & undefined in a same condition using == operator.
+const result = someBooleanOrNullOrUndefined;
+
+if(result != null) {
+    const boolResult = result; // true | false
+}
+
+if (result == null){
+    const nullOrUndefined = result; // null | undefined
+}
+
+```
+Example 3: null vs undefined.
+
+```tsx
+function decorateString(text: string | null | undefined){
+    if(text == null){
+        return text
+    }
+    
+    return `--${text.trim()}--`;
+}
+
+console.log(decorateString("Hello Wolrd"));
+console.log(decorateString(null));
+console.log(decorateString(undefined));
 ```
