@@ -435,3 +435,79 @@ console.log(decorateString("Hello Wolrd"));
 console.log(decorateString(null));
 console.log(decorateString(undefined));
 ```
+
+### 31. Intersection types
+
+[Intersection-types](https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#intersection-types)
+
+Intersection types are closely related to union types, but they are used very differently. An intersection type combines multiple types into one. This allows you to add together existing types to get a single type that has all the features you need. For example, Person & Serializable & Loggable is a type which is all of Person and Serializable and Loggable.
+
+
+```tsx
+
+interface ErrorHandling {
+  success: boolean;
+  error?: { message: string };
+}
+
+interface ArtworksData {
+  artworks: { title: string }[];
+}
+
+interface ArtistsData {
+  artists: { name: string }[];
+}
+
+// These interfaces are composed to have
+// consistent error handling, and their own data.
+
+type ArtworksResponse = ArtworksData & ErrorHandling;
+type ArtistsResponse = ArtistsData & ErrorHandling;
+
+const handleArtistsResponse = (response: ArtistsResponse) => {
+  if (response.error) {
+    console.error(response.error.message);
+    return;
+  }
+
+  console.log(response.artists);
+};
+```
+
+### 33. Optional Modifier
+
+Optional modifer has type as `givenType | undefined` by default. 
+Example: `phone?: number;` -> `number | undefined` by default, if we want to add `null` then  
+
+```tsx
+type ContactDetails = {
+  name: string;
+  age: number;
+  phone?: number; // optional modifier
+}
+
+type ContactDetailsWithnull = {
+  name: string;
+  age: number;
+  phone?: number | null; // optional modifier // supports number | undefined | null
+}
+
+
+const bruce: ContactDetails = {
+  name: 'bruce',
+  age: 32,
+  phone: 89765,
+}
+
+console.log('bruce phone number', bruce.phone); // 89765
+
+
+
+
+const alfred: ContactDetails = {
+  name: 'bruce',
+  age: 32,
+}
+
+console.log('alfred phone number', alfred.phone); // undefined
+```
