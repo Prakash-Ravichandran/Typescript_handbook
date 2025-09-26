@@ -474,7 +474,7 @@ const handleArtistsResponse = (response: ArtistsResponse) => {
 };
 ```
 
-### 33. Optional Modifier
+### 32. Optional Modifier
 
 Optional modifer has type as `givenType | undefined` by default. 
 Example: `phone?: number;` -> `number | undefined` by default, if we want to add `null` then  
@@ -510,4 +510,255 @@ const alfred: ContactDetails = {
 }
 
 console.log('alfred phone number', alfred.phone); // undefined
+```
+
+### 33. Non-null Assertion operator
+
+It is entirely possible to end up in a situation where Typescript's code flow analysis cannot be sure that a value is null or undefined.
+
+When typescript compilation indicates a compile time error that a value is null or undefined, we can use `!` - non-null assertion operator.
+
+So its generally better to re-write the code without using non-null assertion operator.
+
+non-null assertion operator example:
+
+<img width="796" height="306" alt="Image" src="https://github.com/user-attachments/assets/4619c7f1-ea24-4a1b-b2eb-d973a1a79c3d" />
+
+<img width="812" height="353" alt="Image" src="https://github.com/user-attachments/assets/d9a0bc8a-4bc2-47dc-a294-229454629de2" />
+
+
+
+```tsx
+type Point = {
+  x: number;
+  y: number;
+}
+
+let point: Point;
+function initializePoint(){
+  point = { x : 0, y : 0}
+}
+
+initializePoint();
+
+console.log('x=', point!.x, "y=", point!.y); // added non-null assertion operator
+```
+
+
+```tsx
+type Point = {
+  x: number;
+  y: number;
+}
+
+/**
+ * // rewritten the function to remove the dangling variable declaration & 
+ * return the point & use after initialized.
+ */
+function initializePoint(): Point {
+  return { x : 0, y : 0}
+}
+
+const point =  initializePoint();
+
+console.log('x=', point.x, "y=", point.y); 
+```
+
+Example 2: Ts code flow shows that person.email can be null - place to use non-null assertion operator/rewrite the code.
+
+
+```tsx
+type Person = {
+  name: string;
+  email?: string | null | undefined;
+}
+
+
+function SendEmail(email: string){
+  console.log('send email:', email);
+}
+
+
+function ensurePersonContactable(person: Person) {
+   if(person.email == null) throw new Error(`Person doesn't have any email to contact`);
+}
+
+
+function Contact(person: Person){
+  ensurePersonContactable(person);
+  /**
+   * // here typescript code flow analysis make it person.email can still be null,
+   * but we already ensured it to throw error if its null.
+   */
+  SendEmail(person.email); // place to add non-null assertion or rewrite the code
+}
+```
+
+Example: refactored code without non-null assertion operator
+
+```tsx
+type Person = {
+  name: string;
+  email?: string | null | undefined;
+}
+
+
+function SendEmail(email: string){
+  console.log('send email:', email);
+}
+
+function Contact(person: Person){
+  /**
+   * Here ts codeflow analysis knows that person.email cannot be null.
+   */
+ if(person.email == null) throw new Error(`Person doesn't have any email to contact`);
+  SendEmail(person.email); // place to add non-null assertion or rewrite the code
+}
+```
+
+
+
+
+
+### 34. types vs interfaces usages:
+
+`type`: type aliase in ts in particularly designed for using:
+
+1.the types similar to js object declaration & variables with an equalto operator in the syntax.
+
+`interface`: they are similar to how we declare classes in javascript, they are useful for other programming languages engineers coming to ts.
+
+1. Merging interfaces
+2. familiarity with `extends` keyword usages.
+
+```tsx
+type Point2D = {
+   x: number;
+   y: number;
+}
+
+type Point3D = Point2D & {
+  z: number;
+}
+
+export const point: Point3D = {
+  x: 0,
+  y: 9,
+  z: 0
+}
+
+
+interface Point2d {
+   x: number;
+   y: number;
+}
+
+interface Point3d extends Point2d {
+  z: number;
+}
+
+export const pointWith3D: Point3d = {
+  x: 0,
+  y: 0,
+  z: 0
+}
+```
+
+
+
+### 35. Interface declaration merging:
+
+
+```tsx
+
+interface Request {
+  body: any;
+}
+
+
+interface Request {
+  json: any;
+}
+
+
+export function handleRequest(req: Request){
+  req.body;
+  req.json;
+}
+```
+
+### 36: Types vs interface
+
+ * The advantage of type alias: Can separate each property of type to an individual type.
+ * The interface syntax: should defenitely have a body '{}'
+
+
+```tsx
+type InputProps = {
+  input: 'email' | 'text';
+  value: string;
+  onInputChange: (value: string) => void;
+}
+
+
+type Input = 'email'| 'text';
+type Value = string;
+type onInputChange = (value: string) => void;
+
+type InputProp = {
+  input: 'email' | 'text';
+  value: string;
+  onInputChange: (value: string) => void;
+}
+```
+
+<img width="1600" height="900" alt="Image" src="https://github.com/user-attachments/assets/05fd24b9-0321-46bd-adc1-5296b34681ad" />
+
+### 37. Never type
+
+* The never type is the inferred return type for functions that always throw an error or contain an infinite loop, ensuring that the function will never successfully complete execution and return a value.
+
+```tsx
+    function throwError(message: string): never {
+        throw new Error(message);
+    }
+
+    function infiniteLoop(): never {
+        while (true) {
+            // This loop never exits
+        }
+    }
+```
+
+
+```tsx
+/**
+ * The type never can be used for checking whether all unions of a type alias is handled.
+ */
+
+
+type Square = {
+  kind: 'square'
+  size: number
+}
+
+type Rectangle = {
+  kind: 'rectangle'
+  width: number;
+  height: number;
+}
+
+type Shape = Square | Rectangle;
+
+function calculateArea(s: Shape){
+  if(s.kind == 'square'){
+     return s.size * s.size;
+  } else if(s.kind == 'rectangle'){
+    return s.width * s.height;
+  }else {
+  const _ensureAllCasesHandled: never = s;
+  throw new Error('unhandled shape');
+  }
+
+}
 ```
