@@ -210,7 +210,7 @@ function area(shape: Square | Rectangle) {
 
 `kind`
 
-In the above example we are narrowing down using the one of the properties of shape, if we are adding more example like below `Circle` type has no width propery. We can narrowdown using a discriminating union `kind` in every property.
+- In the above example we are narrowing down using the one of the properties of shape, if we are adding more example like below `Circle` type has no width propery. We can narrowdown using a discriminating union `kind` in every property.
 
 ```tsx
 type Circle = { kind: "circle"; radius: number };
@@ -236,7 +236,7 @@ function area(shape: Square | Rectangle) {
 }
 ```
 
-`kind` could also replaced by a common propery like `isValid` in all union types.
+* `kind` could also replaced by a common propery like `isValid` in all union types.
 
 ```tsx
 type ValidationSuccess = {
@@ -263,7 +263,7 @@ function logResult(result: ValidationResult) {
 
 ### 28. Class Parameter properties
 
-typescript allows us to add public to the member variables of a class to remove duplication of member variables.
+* typescript allows us to add public to the member variables of a class to remove duplication of member variables.
 
 
 ```tsx
@@ -310,7 +310,7 @@ strictBuiltinIteratorReturn: It is a TypeScript compiler option introduced to im
 
 Examples 1:
 
-strict: false
+* `strict`: false
 
 ```tsx
 function add(first, second) { // typescript infers arguments as any
@@ -321,7 +321,7 @@ add(1, 2); // 3
 add("Hello", "World"); // World Hello
 ```
 
-strict: true
+* `strict`: true
 
 ```tsx
 function add(first, second) { // compile time error is shown for this.
@@ -337,7 +337,7 @@ add(1, 2); // 3
 
 Examples 2:
 
-strict: false
+* `strict`: false
 
 
 ```tsx
@@ -356,7 +356,7 @@ point.move(1,3);
 console.log(point.x, point.y); // 'NAN' 'NAN'
 ```
 
-strict: true
+* `strict`: true
 
 ```tsx
 class Point {
@@ -381,7 +381,7 @@ console.log(point.x, point.y); // 3, 8
 
 ### 30. Null vs undefined
 
-Method throws `null` for a non-matching string.
+- Method throws `null` for a non-matching string.
 
 ```tsx
 
@@ -395,9 +395,8 @@ console.log(logVowels('sky'));
 ```
 
 
-Example 2: null vs undefined
+- Example 2: null vs undefined
 ```tsx
-
 console.log(null == null); // true
 console.log(undefined == null); // true
 console.log(undefined == undefined); // true
@@ -420,7 +419,7 @@ if (result == null){
 }
 
 ```
-Example 3: null vs undefined.
+- Example 3: null vs undefined.
 
 ```tsx
 function decorateString(text: string | null | undefined){
@@ -440,7 +439,7 @@ console.log(decorateString(undefined));
 
 [Intersection-types](https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#intersection-types)
 
-Intersection types are closely related to union types, but they are used very differently. An intersection type combines multiple types into one. This allows you to add together existing types to get a single type that has all the features you need. For example, Person & Serializable & Loggable is a type which is all of Person and Serializable and Loggable.
+* Intersection types are closely related to `union` types, but they are used very differently. **An intersection type combines multiple types into one**. This allows you to add together existing types to get a single type that has all the features you need. For example, `Person` & `Serializable` & `Loggable` is a type which is all of `Person` and `Serializable` and `Loggable`.
 
 
 ```tsx
@@ -476,7 +475,7 @@ const handleArtistsResponse = (response: ArtistsResponse) => {
 
 ### 32. Optional Modifier
 
-Optional modifer has type as `givenType | undefined` by default. 
+* Optional modifer has type as `givenType | undefined` by default. 
 Example: `phone?: number;` -> `number | undefined` by default, if we want to add `null` then  
 
 ```tsx
@@ -514,13 +513,13 @@ console.log('alfred phone number', alfred.phone); // undefined
 
 ### 33. Non-null Assertion operator
 
-It is entirely possible to end up in a situation where Typescript's code flow analysis cannot be sure that a value is null or undefined.
+- It is entirely possible to end up in a situation where Typescript's code flow analysis cannot be sure that a value is null or undefined.
 
-When typescript compilation indicates a compile time error that a value is null or undefined, we can use `!` - non-null assertion operator.
+- When typescript compilation indicates a compile time error that a value is null or undefined, we can use `!` - non-null assertion operator.
 
-So its generally better to re-write the code without using non-null assertion operator.
+**So its generally better to re-write the code without using non-null assertion operator.**
 
-non-null assertion operator example:
+ **non-null assertion operator example:**
 
 <img width="796" height="306" alt="Image" src="https://github.com/user-attachments/assets/4619c7f1-ea24-4a1b-b2eb-d973a1a79c3d" />
 
@@ -564,7 +563,7 @@ const point =  initializePoint();
 console.log('x=', point.x, "y=", point.y); 
 ```
 
-Example 2: Ts code flow shows that person.email can be null - place to use non-null assertion operator/rewrite the code.
+* Example 2: Ts code flow shows that person.email can be null - place to use non-null assertion operator/rewrite the code.
 
 
 ```tsx
@@ -594,7 +593,7 @@ function Contact(person: Person){
 }
 ```
 
-Example: refactored code without non-null assertion operator
+* Example: refactored code without non-null assertion operator
 
 ```tsx
 type Person = {
@@ -622,11 +621,10 @@ function Contact(person: Person){
 
 ### 34. types vs interfaces usages:
 
-`type`: type aliase in ts in particularly designed for using:
+* `type`: type aliase in ts in particularly designed for using:
+   - the types similar to js object declaration & variables with an equalto operator in the syntax.
 
-1.the types similar to js object declaration & variables with an equalto operator in the syntax.
-
-`interface`: they are similar to how we declare classes in javascript, they are useful for other programming languages engineers coming to ts.
+* `interface`: they are similar to how we declare classes in javascript, they are useful for other programming languages engineers coming to ts.
 
 1. Merging interfaces
 2. familiarity with `extends` keyword usages.
