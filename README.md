@@ -968,3 +968,30 @@ assert(mayBePerson != null, 'could not load person');
 console.log('name:', mayBePerson.name);
 console.log('name:', mayBePerson.dateOfBirth);
 ```
+
+### 42. Function Overloading
+
+
+- typescript correctly infers the output1 as `function remapVowels(word: string): string (+1 overload)`
+- typescript correctly infers the output2 as `function remapVowels(word: string[]): string[] (+1 overload)`
+- those declaration are not part of runtime code, its compile time only.
+
+```tsx
+// function declaration for all function overloading
+function remapVowels(word: string): string;
+function remapVowels(word: string[]): string[];
+
+// we need have only one body of function definition that handles all overloading
+function remapVowels(word:string | string []) { 
+    if(Array.isArray(word)) {
+      return word.map((w) =>  w.match(/[aeiou]/gi) ?  w='-' : w=w);
+    }
+    if( typeof word === 'string') {
+      return word.split("").map((w) =>  w.match(/[aeiou]/gi) ?  w='-' : w=w).join(' ');
+    }
+    throw new Error('input only string | string[]')
+}
+
+const output1 = remapVowels('australia'); // "output 1",  "- - s t r - l - -" 
+const output2 = remapVowels(['a', 'u', 's', 't', 'r', 'a', 'l', 'i', 'a']); // "output 2",  ["-", "-", "s", "t", "r", "-", "l", "-", "-"]
+```
