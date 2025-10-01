@@ -851,3 +851,85 @@ class Point {
   }
 }
 ```
+
+### 40. User Defined Type Guards
+
+[typescript-doc-user-defined-type-guards](https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards)
+
+- To alter shape of object - we narrow the shape using discriminating unions like `kind`
+
+- To not alter the shape - we can use User Defined Type Guards
+
+```tsx
+
+type Circle = {
+   radius: number;
+}
+
+
+type Rectangle = {
+   length: number;
+   breadth: number;
+}
+
+type Square = {
+   size: number;
+}
+
+type Shape = Circle | Rectangle | Square;
+
+// we are telling typescript that if isSquare() returns true then shape is of type Square.
+
+function isCircle(shape: Shape): shape is Circle  { // user defined type guards
+    return 'radius' in shape;
+}
+
+function isRectangle(shape: Shape): shape is Rectangle { // user defined type guards
+  return 'length' in shape; 
+}
+
+function isSquare(shape: Shape): shape is Square { // user defined type guards
+  return 'size' in shape;
+}
+
+// using user defined type guards
+function calculateArea(shape: Shape ){
+   if(isCircle(shape)){
+      return Math.PI * shape.radius * shape.radius;
+   }
+
+   if(isRectangle(shape)){
+      return shape.length * shape.breadth;
+   }
+
+    if(isSquare(shape)){
+      return shape.size * shape.size;
+   }
+   
+  const _ensureAllDeclared: never = shape;
+
+  return _ensureAllDeclared;
+}
+
+// discriminating unions
+function calculateArea(shape: Shape ){
+   if( 'radius' in shape){
+      return Math.PI * shape.radius * shape.radius;
+   }
+
+   if('length' in shape){
+       return shape.length * shape.breadth;
+   }
+
+     if('size' in shape){
+       return shape.size * shape.size;
+   }
+   
+  const _ensureAllDeclared: never = shape;
+
+  return _ensureAllDeclared;
+}
+```
+
+
+
