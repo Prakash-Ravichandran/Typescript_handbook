@@ -995,3 +995,33 @@ function remapVowels(word:string | string []) {
 const output1 = remapVowels('australia'); // "output 1",  "- - s t r - l - -" 
 const output2 = remapVowels(['a', 'u', 's', 't', 'r', 'a', 'l', 'i', 'a']); // "output 2",  ["-", "-", "s", "t", "r", "-", "l", "-", "-"]
 ```
+
+### 43. Call Signatures
+
+```tsx
+type RemapVowelsProps = (word: string | string[]) => string | string[];
+
+const remapVowels:RemapVowelsProps = (word:string | string [])  => {
+    if(Array.isArray(word)) {
+      return word.map((w) =>  w.match(/[aeiou]/gi) ?  w='-' : w=w);
+    }
+    if( typeof word === 'string') {
+      return word.split("").map((w) =>  w.match(/[aeiou]/gi) ?  w='-' : w=w).join(' ');
+    }
+    throw new Error('input only string | string[]')
+}
+```
+
+
+```tsx
+// function overloads in type alias
+// we cannot use Add type alias to normal functions, we assign it to only arrow functions
+type Add = {
+  (a: number, b: number): number;
+  (a: number, b: numbe, c: number): number;
+}
+
+const add:Add = (a:number, b:number) => {
+  return a + b;
+}
+```
