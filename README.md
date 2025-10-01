@@ -1019,7 +1019,7 @@ const remapVowels:RemapVowelsProps = (word:string | string [])  => {
 // we cannot use Add type alias to normal functions, we assign it to only arrow functions
 type Add = {
   (a: number, b: number): number;
-  (a: number, b: numbe, c: number): number;
+  (a: number, b: number, c: number): number;
 }
 
 const add:Add = (a:number, b:number) => {
