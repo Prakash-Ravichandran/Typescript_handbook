@@ -931,5 +931,40 @@ function calculateArea(shape: Shape ){
 }
 ```
 
+### 41. Assertion Functions
 
 
+- typescript here is not doing any implicit checking here, it does support explicit checking in the form of assertion checking.
+
+- use `asserts functions` for application tests 
+- use `User Defined Type Guards` for developmenet works.
+
+
+```tsx
+
+type Person = {
+  name: string;
+  dateOfBirth: Date;
+}
+
+function assert(condition: unknown, message: string): asserts condition {
+  if(!condition) throw new Error(message); 
+}
+
+function asserDate(value: unknown): asserts value is Date {
+   if(value instanceof Date) return;
+   else throw new TypeError ('value is not Date');
+}
+
+const loadPerson = () :Person => {
+  console.log('fetches person');
+  return { name: 'jack', dateOfBirth: new Date()}
+}
+
+const mayBePerson = loadPerson();
+
+assert(mayBePerson != null, 'could not load person');
+
+console.log('name:', mayBePerson.name);
+console.log('name:', mayBePerson.dateOfBirth);
+```
