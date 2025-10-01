@@ -760,3 +760,94 @@ function calculateArea(s: Shape){
 
 }
 ```
+
+## Advanced
+
+### 38. implements keyword
+
+[difference-implements-and-extends](https://stackoverflow.com/questions/38834625/whats-the-difference-between-extends-and-implements-in-typescript)
+
+
+`implements` keyword can be used for treating/restricting the class/object to have the same shape.
+
+
+```tsx
+
+type Animal = {
+  name: string;
+  voice(): string;
+}
+
+function log(animal: Animal){
+  console.log(`Animal ${animal.name}: ${animal.voice()}`);
+}
+
+class Cat implements Animal {
+  constructor(public name: string){}
+  voice(){ return 'meow';}
+}
+
+class Dog implements Animal {
+  constructor(public name: string){}
+  voice() { return 'woof';}
+}
+
+log(new Cat('Salem'));
+log(new Dog('Lassie'));
+
+```
+
+### 39. Definite Assignment Assertion
+
+
+Definite Assignment Assertion `let dice!: number` can be used when typescript still says  `Variable x is used before being assigned` at that time we can use this.
+
+Typescript shows error `Variable 'dice' is used before being assigned`For this we can use definite Assignment operator. 
+
+Example 1:
+
+```tsx
+let dice!: number;   
+function rollDice(){   
+  dice = Math.floor((Math.random() * 6) + 1); 
+}  
+rollDice(); 
+console.log('dice', dice);
+```
+
+Example 2: without `Definite Assignment Assertion`
+
+```tsx
+class Point {
+  x: number;
+  y: number;
+
+  constructor(x: number , y: number){
+    this.x = x;
+    this.y = y;
+  }
+
+  moveRandom() {
+    this.x = Math.random();
+    this.y = Math.random();
+  }
+}
+```
+
+- If we remove the initializer of this.x = x; the scenario if same as above, then fix using Definie Assignment Assertion.
+
+```tsx
+class Point {
+  x!: number; // included Definite Assignment Assertion
+  y!: number; // included Definite Assignment Assertion
+
+  constructor(){
+    this.moveRandom();
+  }
+
+  moveRandom() {
+    this.x = Math.random();
+    this.y = Math.random();
+  }
+}
+```
