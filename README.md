@@ -1026,3 +1026,26 @@ const add:Add = (a:number, b:number) => {
   return a + b;
 }
 ```
+
+Exmaple for creating a signature for class
+
+
+```tsx
+type PointCreator = new (x:number, y: number) => {x:number, y:number};
+
+const Point:PointCreator = class {
+   x:number;
+   y: number;
+    constructor(x:number, y: number){
+      this.x = x;
+      this.y = y;
+    }
+
+    move() {
+      this.x = Math.floor(Math.random() + 1);
+      this.y = Math.floor(Math.random() + 1);
+    }
+}
+
+const point1 = new Point(3, 5);
+```
