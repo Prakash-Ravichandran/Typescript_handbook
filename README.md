@@ -996,7 +996,7 @@ const output1 = remapVowels('australia'); // "output 1",  "- - s t r - l - -"
 const output2 = remapVowels(['a', 'u', 's', 't', 'r', 'a', 'l', 'i', 'a']); // "output 2",  ["-", "-", "s", "t", "r", "-", "l", "-", "-"]
 ```
 
-### 43. Call Signatures
+### 43. Function Call Signatures
 
 ```tsx
 type RemapVowelsProps = (word: string | string[]) => string | string[];
@@ -1012,6 +1012,7 @@ const remapVowels:RemapVowelsProps = (word:string | string [])  => {
 }
 ```
 
+#### Function Call Signatures in type alias
 
 ```tsx
 // function overloads in type alias
