@@ -1027,7 +1027,7 @@ const add:Add = (a:number, b:number) => {
 }
 ```
 
-Exmaple for creating a signature for class
+Example for creating a signature for class
 
 
 ```tsx
@@ -1048,4 +1048,38 @@ const Point:PointCreator = class {
 }
 
 const point1 = new Point(3, 5);
+```
+
+### 44. Abstract classes
+
+
+ * Cannot create intsance of abstract class
+ * The implmentation happens in the inherited sub-class.
+ * Abstract methods, which are declared without an implementation (only a signature). 
+ * Subclasses must provide an implementation for all abstract methods.
+
+```tsx
+abstract class LivingCreature {
+   abstract eat(noOfMeals: number):string;
+   abstract sleep(): void;
+   abstract work(): void
+
+   breath(){
+     return 'living creatures breath';
+   }
+}
+
+class Human extends LivingCreature {
+  eat(noOfMeals:number){
+    return `eats ${noOfMeals} meals a day`;
+  }
+
+  sleep() {
+    return `eight hours a day`;
+  }
+
+  work(){
+    return `work in a day for living`
+  }
+}
 ```
