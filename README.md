@@ -1199,7 +1199,34 @@ Double assertions:
  * unknown can be used for double assertion telling ts that the type is going to unknown & then its second asserted type.
 
 ```tsx
-let employeeIDs = ['45', '75', '90'];
+let employeeIDs: string[] = ['45', '75', '90'];
 
 let emplyeeIDAsNumber: Array<number> = employeeIDs as unknown as number[];
 ```
+
+### 48. as const Assertion
+
+Does three things
+
+`as const` assertion provides three things:
+
+1. Any primitives to literal types (can contain only the specified value of the object).
+
+2. object properties are also readonly 
+
+3. object property contains any arrays to read only tuples.
+
+```tsx
+const DaveAddress = {
+  name: 'dave',
+  address: '22, New Street',
+  ph: ['989894567', '7654312345']
+} as const;
+
+// as per js we can't ressign DaveAddress but we can re-modify name, address, ph.
+// we achieve this using as const assertion.
+```
+
+** as const assertion **:
+
+<img width="1146" height="732" alt="Image" src="https://github.com/user-attachments/assets/c0880a8c-3079-4a67-99b2-bca3db04bb13" />
