@@ -1124,3 +1124,82 @@ console.log(personsWithoutDic['name']);
 
 ### 46. Readonly Arrays & Tuples
 
+type Neat = readonly number[];
+type Long = ReadonlyArray<number>; // readonly generic interface
+
+
+```tsx
+
+const originalArray = [89, 90, 13, 12, 66];
+const newArr = originalArray.sort();
+
+console.log('originalArray', originalArray); //  [12, 13, 66, 89, 90] 
+console.log('newArr', newArr); //  [12, 13, 66, 89, 90] 
+
+
+const originalArray: Neat = [89, 90, 13, 12, 66];
+const newArr = originalArray.slice().sort();
+
+console.log('originalArray', originalArray); // [89, 90, 13, 12, 66] 
+console.log('newArr', newArr); //  [12, 13, 66, 89, 90] 
+```
+
+Tuples: Arrays with fixed length.
+
+```tsx
+type Point = readonly [number, number];
+
+function move(point:Point, x:number, y: number) {
+  return [point[0]+ x, point[1] + y];
+}
+
+
+const point:Point = [1,2];
+const moved = move(point, 5, 5);
+
+console.log(point);
+console.log(moved);
+```
+
+### 47. Double Assertion
+
+
+note about `any` & `unknown`
+
+
+```tsx
+any, unknown are universal superset types.
+
+- Similarities: any, unknown can accept any values/types.
+- Difference: any - can do anything, unknown - a type safe version of any.
+
+
+
+let exampleAny: any;
+let exampleUnknown: unknown;
+ 
+exampleAny = 123;
+exampleAny = 'Hello World';
+exampleUnknown = 123;
+exampleUnknown = 'Hello Wolrd';
+ 
+ 
+exampleAny.doAny.allow.anything.do();
+ 
+if (typeof exampleUnknown == 'string') {
+   exampleUnknown.trim();
+}
+if (typeof exampleUnknown == 'boolean') {
+   let isLoading:boolean = exampleUnknown;
+}
+```
+
+Double assertions:
+
+ * unknown can be used for double assertion telling ts that the type is going to unknown & then its second asserted type.
+
+```tsx
+let employeeIDs = ['45', '75', '90'];
+
+let emplyeeIDAsNumber: Array<number> = employeeIDs as unknown as number[];
+```
