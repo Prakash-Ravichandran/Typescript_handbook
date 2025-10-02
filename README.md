@@ -1083,3 +1083,44 @@ class Human extends LivingCreature {
   }
 }
 ```
+
+### 45. Index Signature
+
+[index-signatures](https://www.typescriptlang.org/glossary/#index-signatures)
+
+- A type in TypeScript usually describes an exact set of fields to match on an object. An index signature is a way to define the Shape of fields which are not known ahead of time.
+- The key in object can be `string/number` supported by js by default. 
+
+
+```tsx
+type Person = {
+  name: string;
+  email: string;
+}
+
+
+type Dictionary = {
+  [key: string]: Person; // the property name is known at runtime.
+}
+
+
+const persons: Dictionary = {
+  jane: {name: 'jane', email: 'jane@example.com'}
+}
+
+persons['mike'] = {name: 'mike', email: 'mike@example.com'};
+
+
+type DictionaryWithoutIndex = {
+   name: Person;
+}
+
+const personsWithoutDic: DictionaryWithoutIndex = {
+   name: {name: 'mike', email: 'mike@example.com'}
+}
+
+console.log(personsWithoutDic['name']);
+```
+
+### 46. Readonly Arrays & Tuples
+
