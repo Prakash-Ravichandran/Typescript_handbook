@@ -1230,3 +1230,29 @@ const DaveAddress = {
 ** as const assertion **:
 
 <img width="1146" height="732" alt="Image" src="https://github.com/user-attachments/assets/c0880a8c-3079-4a67-99b2-bca3db04bb13" />
+
+### 49. this paramter
+
+- this here is person (calling context), we can restrict the object using `this` object should have `value` as the first parameter in the object.
+
+```tsx
+function incrementValue(this: {value: number }) {
+    this.value = this.value * 2;
+}
+
+
+const person = {
+  value: 10000,
+  double: incrementValue
+}
+
+person.double();
+
+const personWithImproperValue = {
+    valve: 15000,
+    double: incrementValue
+}
+
+personWithImproperValue.double();
+```
+
