@@ -1256,3 +1256,131 @@ const personWithImproperValue = {
 personWithImproperValue.double();
 ```
 
+### 49. Generic constraints with Generics Notes
+
+```tsx
+// 1. defining a function with generics
+//takes a type parameter Type, and an argument arg which is an array of Types, and returns an array of Types.”
+function logIdentity<T>(arg: T):T{
+    return arg;
+}
+
+const argWithString = logIdentity<string>('string'); //given as string
+const argWithNumber = logIdentity<number>(56); //given as string
+const argWithBoolean = logIdentity<boolean>(true);
+const argWithUndefined = logIdentity<undefined>(undefined);
+const argWithNull = logIdentity<null>(null);
+
+// 2. using the syntax of using generics
+// type argument
+let output = logIdentity<string>('chair person');
+// type argument interface
+let outputWithTypeArgumentInterface = logIdentity('chair person');
+
+
+// 3. Generic Type Variables
+function CalculateLength<T>(arg: T): T{
+  if(arg.length > 0) // Property 'length' does not exist on type 'T'.
+  return arg;
+}
+
+//Note: ts cannot confirm that the Type paramter can always hold a parameter that contains length in it.
+
+const len = CalculateLength<string>('text');
+
+// we can solve it 
+function CalculateLengths<T>(arg: T[]): T[]{
+  if(arg.length > 0) {
+      return arg;
+  } 
+  return [];
+}
+
+const l = CalculateLengths<string>(['text1', 'text2', 'text3']);
+
+// can be written in 
+function CalculateLengthsWithOtherSyntax<T>(arg: Array<T>): Array<T>{
+  if(arg.length > 0) {
+      return arg;
+  } 
+  return [];
+}
+
+//4 . Generic types
+
+function logValue<T>(arg: T): T {
+  return arg;
+}
+
+const logV: <T> (arg: T) => T = logValue;
+
+// now we can separate above inline type as interface called Generic type 
+interface LogValue {
+  <T> (arg:T) : T // for interface we use : after the argument() brackets.
+}
+
+interface LogValueWithTypeParameter<T> { // for using type paramter
+  (arg:T) : T 
+}
+
+function logV_Interface<T>(arg: T):T { // normal function cannot annotate a generic interface
+    return arg;
+}
+
+const logV_With_Interface: LogValue = logV_Interface; // assign to a variable
+const logV_With_Interface_Other_Syntax: LogValueWithTypeParameter<number> = logV_Interface; // assign to a variable
+
+
+// 5. Generic classes - follows same structure as interface
+
+class DemonstrateGenericClass<NType> {
+    initialParameter: NType;
+    lastParameter: NType;
+    add() : NType {
+      return this.initialParameter as any + this.lastParameter as any;
+    }
+
+    constructor(intialParameter: NType, lastParameter: NType) {
+      this.initialParameter = intialParameter;
+      this.lastParameter = lastParameter;
+    }
+}
+
+const Instance = new DemonstrateGenericClass<number>(5, 10);
+console.log(Instance.add())
+
+
+// 6 generic constraints
+
+function loggingIdentity<Type>(arg: Type): Type {
+  console.log(arg.length);
+ // Property 'length' does not exist on type 'Type'.
+  return arg;
+}
+
+// we need a function that works with all types as type variable, argument, return type.
+
+// its possible through a constraints
+
+interface SizeWise {
+  size: number 
+}
+
+function loggingIdentityx<Type extends SizeWise>(arg: Type ): Type {
+  console.log(arg.size);
+ // Property 'size' does not exist on type 'Type'.
+  return arg;
+}
+
+
+// 7. using type paramters in generic constraints
+
+function getProperty<Type, KeyInput extends keyof Type>(obj: Type, key: KeyInput) {
+  return obj[key];
+}
+ 
+let x = { a: 1, b: 2, c: 3, d: 4 };
+ 
+console.log(getProperty(x, "a"));
+console.log(getProperty(x, "m"));
+```
