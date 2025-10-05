@@ -1256,7 +1256,7 @@ const personWithImproperValue = {
 personWithImproperValue.double();
 ```
 
-### 49. Generic constraints with Generics Notes
+### 50. Generic constraints with Generics Notes
 
 ```tsx
 // 1. defining a function with generics
@@ -1384,3 +1384,120 @@ let x = { a: 1, b: 2, c: 3, d: 4 };
 console.log(getProperty(x, "a"));
 console.log(getProperty(x, "m"));
 ```
+
+### 51. Dealing with Temporal Uncertainity.
+
+## Expert
+
+### 52 typeof type operator
+
+- The typeof operator can be used to derive type from existing objects
+- can also be used to derive types from the json from API response
+
+```tsx
+const center = {
+    x: 0,
+    y:0,
+    z: 0
+}
+
+type Point = typeof center;
+
+const point: Point = {
+    x: 1,
+    y: 2,
+    z: 3
+}
+
+const pointWithInline: typeof point = {
+    x: 1,
+    y: 2,
+    z: 3
+}
+```
+
+### 53. Lookup types 
+
+- Lookup types, also known as indexed access types, are a powerful feature in TypeScript that allow for the extraction and reuse of specific property types from existing types. This capability addresses several needs in TypeScript development.
+
+```tsx
+// 1. Interface for a single User object
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  is_active: boolean;
+}
+
+// 2. Interface for the entire API response structure
+interface ApiResponses {
+  // Response for fetching a single user by ID
+  'fetchUserById': {
+    status: number; // e.g., 200
+    data: User;
+    timestamp: string;
+  };
+  // Response for fetching a list of users
+  'fetchAllUsers': {
+    status: number; // e.g., 200
+    data: User[]; // Array of User objects
+    meta: {
+      totalCount: number;
+    };
+  };
+  // Response for an error (e.g., 404 Not Found)
+  'notFoundError': {
+    status: 404;
+    error: {
+      code: string;
+      message: string;
+    };
+  };
+}
+
+type fetchUserById = ApiResponses['fetchUserById']; // access 1st level types
+type fetchUserByStatus = ApiResponses['fetchUserById']['status']; // access 2nd level types
+```
+
+### 54. keyof type operator
+
+- The keyof operator takes type as the input and returns unions of keys from the taken input.
+
+```tsx
+type User = {
+    name: string;
+    email: string;
+    address: string;
+}
+
+type Userkeys = keyof User;
+
+const userDetail:Userkeys = 'name';
+```
+
+### 55. Conditional types
+
+```tsx
+// ts way of finding the given input is number or not
+type IsNumber<T> = T extends number ? 'number' : 'other';
+
+type typeWithNumber = IsNumber<number>;
+type typeWithOther = IsNumber<string>;
+
+
+// Javscript way of finding the number
+const IsNumber = (arg: unknown) => {
+    if(typeof arg === 'number') {
+        return 'number'
+    }
+    return 'other';
+}
+
+const WithNumber = IsNumber(123);
+const WithOther = IsNumber('other');
+
+console.log(WithNumber);// number
+console.log(WithOther); // other
+```
+
+### 56. Conditional types with Unions and never
