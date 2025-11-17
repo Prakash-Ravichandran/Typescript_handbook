@@ -1595,7 +1595,7 @@ AddPerson(person);
 
 - So if you apply the modifier, read only all of these members become read only, which is the type that we want to generate.
 
-- In-built type: `readOnly`
+- In-built generic type: `Readonly<Point>`
 
 
 ```tsx
