@@ -1595,6 +1595,8 @@ AddPerson(person);
 
 - So if you apply the modifier, read only all of these members become read only, which is the type that we want to generate.
 
+- In-built type: `readOnly`
+
 
 ```tsx
 type Point = {
@@ -1603,12 +1605,24 @@ type Point = {
  z: number;
 }
 
-type ReadOnlyPoint = {
- readonly [Item in keyof Point]: number; // is equivalent to adding readonly to all properties
+type ReadOnlyPoint1 = {
+ readonly [Item in keyof Point]: number; // number is same for all
 }
 
 
-const center:  ReadOnlyPoint = {
+// read types of individual numbers in types
+type ReadOnlyDynamicPoint = {
+ readonly [Item in keyof Point]: Point[Item]; // we can access dynamic property types.
+}
+
+// with generics
+type ReadonlyPointGeneric<T> = {
+ readonly [Item in keyof T]: T[Item]; // T = Point
+}
+
+type InbuiltReadOnlyPoint = Readonly<Point>; // in built readonly generic is available
+
+const center: InbuiltReadOnlyPoint  = {
    x: 0,
    y: 0,
    z:0
