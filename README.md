@@ -1501,3 +1501,126 @@ console.log(WithOther); // other
 ```
 
 ### 56. Conditional types with Unions and never
+
+[stackoverflow-answer](https://stackoverflow.com/questions/42291811/use-of-never-keyword-in-typescript)
+
+1. We cannot assign to a never typed variable.
+2. We can assign a never returned variable to other types because never is something that not going to be assigned to it.
+
+```tsx
+function logError(message:string):never {
+    throw new Error(message);
+}
+
+
+const notAllowed:never = 'some string'; //Type '"some string"' is not assignableto type 'never'.
+
+const allowed:string = logError('error'); // can assign never to anything
+
+type Verbose = string | never;
+
+type Concise = string;
+```
+
+
+Conditional types in never
+
+Exclucde null and undefined from T
+
+```tsx
+export type NoEmpty<T> = T extends null | undefined ? never : T;
+
+apply union to T, is equivalent to type ExpandedExample.
+type Example = NoEmpty<string | null>;
+type ExpandedExample = NoEmpty<string> | NoEmpty<null>;
+
+inline expansion
+
+type ExpandedInline = (string extends null | undefined ? never: string) |
+ (null extends null | undefined ? never : string);
+
+ after expression how ts sees
+
+ type ConcludeExpanded = string | never;
+ type Result = string;
+ ```
+
+### 57 infer keyword and ReturnType<T>
+
+- In TypeScript, the `infer` keyword is used within conditional types to capture and extract a type from another type. It allows for dynamic type extraction and manipulation, making it a powerful tool for advanced type transformations.
+
+```tsx
+type IsArray<T> = T extends Array<any> ? 'array': 'other';
+
+
+type typeWithArray = IsArray<string []>;
+type WithoutArray = IsArray<string>;
+
+//using infer keyword
+type UnboxArray<T> = T extends Array<infer Member> ? Member[] : T;
+type _typeWithArray = UnboxArray<string[]>;
+type _WithoutArray = UnboxArray<string>;
+```
+
+- ReturnType
+
+```tsx
+function CreatePerson(firstName: string, lastName: string){
+    return {
+        firstName: firstName,
+        lastName: lastName,
+        fullName: `${firstName} ${lastName}`
+    }
+}
+
+// internal ReturnType looks like below
+// type ReturnType<T> = T extends (...args: any) => infer R ? R : never;
+
+-T extends (...args: any[]) => infer R checks if T is a function type.
+-If it is, infer R captures the return type of that function into a new type -variable R.
+-The conditional type then returns R (the inferred return type); otherwise, it returns any.
+
+function AddPerson(person: ReturnType<typeof CreatePerson>){
+    const list = [];
+    list.push(person);
+}
+
+const person = CreatePerson('mike', 'jane');
+AddPerson(person);
+```
+
+### 58. Mapped Types
+
+- The great thing about map types is that you can add modifiers that will apply to all the loop items.
+
+- So if you apply the modifier, read only all of these members become read only, which is the type that we want to generate.
+
+
+```tsx
+type Point = {
+ x: number;
+ y: number;
+ z: number;
+}
+
+type ReadOnlyPoint = {
+ readonly [Item in keyof Point]: number; // is equivalent to adding readonly to all properties
+}
+
+
+const center:  ReadOnlyPoint = {
+   x: 0,
+   y: 0,
+   z:0
+}
+
+center.x = 5; // we cannot modifiy this
+```
+
+
+
+
+
+
+
+
