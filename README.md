@@ -1631,6 +1631,78 @@ const center: InbuiltReadOnlyPoint  = {
 center.x = 5; // we cannot modifiy this
 ```
 
+### 59. Mapped Type Modifiers (? / +? ,  -? ,  +readonly, -readonly)
+
+- Modify the property as optional by using the ? for making the property optional and -? removing the optional.
+- Modifty (add readOnly) the property as readOnly using +readOnly/readOnly.
+- Modifty (remove readOnly) the property as readOnly using -readOnly.
+
+
+```tsx
+export type Point = {
+   x: number;
+   readonly y?: number;
+}
+
+
+type Mapper<T> = {
+   [Item in keyof T]: T[Item];
+}
+
+
+export type Result = Mapper<Point>; // same copy of Point here 
+
+// we can modify this by using the ? for making the property optional and - removing the optional.
+
+type OptionalMapper<T> = {
+   [Item in keyof T]?: T[Item]; // added optional for all
+}
+
+export type optionalResult = OptionalMapper<Point>; 
+
+type optionalResultStructure = {
+    x?: number | undefined;
+    readonly y?: number | undefined;
+}
+
+type MandatoryMapper<T> = {
+   [Item in keyof T]-?: T[Item]; // added mandatory prop for all
+}
+
+export type MandatoryResult = MandatoryMapper<Point>; 
+
+type ReadonlyMapper<T> = {
+   +readonly [Item in keyof T]: T[Item]; // adding +sign is for visually stating that adding readonly to all properties
+}
+```
+
+
+
+Example for Partial Utility Types
+
+```tsx
+interface Todo {
+  title: string;
+  description: string;
+}
+
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+  return { ...todo, ...fieldsToUpdate };
+}
+
+const todo1 = {
+  title: "organize desk",
+  description: "clear clutter",
+};
+
+const todo2 = updateTodo(todo1, {
+  description: "throw out trash",
+});
+
+console.log(todo1); //  { "title": "organize desk", "description": "clear clutter" }
+console.log(todo2); // { "title": "organize desk", "description": "throw out trash" } 
+```
+
 
 
 
