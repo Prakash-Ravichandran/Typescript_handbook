@@ -1773,4 +1773,46 @@ const todo2 = updateTodo(todo1, {
 });
 ```
 
+### 62. Required<Type>
+
+Constructs a type consisting of all properties of given `Type` set to required.
+
+- we have in-built utility type called as `Required<T>`
+
+
+```tsx
+
+type PartialPoint = { x?: number; y?: number};
+
+type RequiredPoint<T> = {
+  [Item in keyof T]:T[Item];
+}
+
+const RequiredPoints: RequiredPoint<PartialPoint> = { x: 5, y: 7};
+```
+
+### 63. Readonly<T>
+
+- In-built utility type called as `Readonly<Type>`
+
+```tsx
+type CustomReadOnly<T> = {
+ readonly [Item in keyof T]: T[Item]
+}
+
+type Point = {
+  x: number;
+  y: number;
+}
+
+type readOnlyPoint = CustomReadOnly<Point>; 
+
+type readOnlyPoint = {
+  readonly x: number;
+  readonly y: number;
+}
+```
+
+
+
 
