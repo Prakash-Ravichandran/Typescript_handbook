@@ -1744,9 +1744,33 @@ function size(input: CSSValue) {
 <img width="1012" height="247" alt="Image" src="https://github.com/user-attachments/assets/8768a9f1-a412-4140-88ac-4b75b35eded6" />
 
 
+## Super
+
+### 61. Partial<T>
+
+Syntax: `Partial<Type>`: This utility will return a type that represents all subsets of a given type.
 
 
+Example for `Partial<Type>`:
 
-
+```tsx
+interface Todo {
+  title: string;
+  description: string;
+}
+ 
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+  return { ...todo, ...fieldsToUpdate };
+}
+ 
+const todo1 = {
+  title: "organize desk",
+  description: "clear clutter",
+};
+ 
+const todo2 = updateTodo(todo1, {
+  description: "throw out trash",
+});
+```
 
 
