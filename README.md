@@ -1720,6 +1720,28 @@ templateLiteral = 'Example: world';
 templateLiteral = 'without a Example prefix';
 ```
 
+use case:
+
+```tsx
+
+type CSSValue = number | string;  // user can pass 123, 123px, but what if 123ex
+
+function size(input: CSSValue) {
+  return typeof input == 'number' ? input + 'px' : input;
+}
+```
+
+- user can pass 123, 123px, but what if 123ex
+```tsx
+
+type CSSValue = number | `${number}px` | `${number}em` | `${number}rem`;  // user can pass 123, 123px, but what if 123ex
+
+function size(input: CSSValue) {
+  return typeof input == 'number' ? input + 'px' : input;
+}
+```
+
+<img width="1012" height="247" alt="Image" src="https://github.com/user-attachments/assets/8768a9f1-a412-4140-88ac-4b75b35eded6" />
 
 
 
