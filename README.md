@@ -1794,6 +1794,7 @@ const RequiredPoints: RequiredPoint<PartialPoint> = { x: 5, y: 7};
 ### 63. Readonly<T>
 
 - In-built utility type called as `Readonly<Type>`
+- Immutable obj properties use `Object.freeze({...obj})` 
 
 ```tsx
 type CustomReadOnly<T> = {
