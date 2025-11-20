@@ -1703,6 +1703,24 @@ console.log(todo1); //  { "title": "organize desk", "description": "clear clutte
 console.log(todo2); // { "title": "organize desk", "description": "throw out trash" } 
 ```
 
+### 60. Template Litertal Type
+
+- In TS template literal: we can enforce to have specific text in template literal followed by JS variable.
+- In JS template literal:
+
+```tsx
+let str = `hello world`;
+str = `whatever`;
+```
+
+```tsx
+let templateLiteral: `Example: ${string}`;
+templateLiteral = 'Example; hello';
+templateLiteral = 'Example: world';
+templateLiteral = 'without a Example prefix';
+```
+
+
 
 
 
