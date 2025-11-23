@@ -1843,5 +1843,19 @@ const Pages: Pages = {
 }
 ```
 
+### 65. AutoComplete for literal union types
+
+- Trick part here telling typescript that give me autocomplete for union of literals, also take a string of user given with intersection of empty object.
+
+
+```tsx
+type Padding = 'small' | 'large' | 'medium' | (string & {});
+
+
+const ContainerPadding: Padding = 'small';
+```
+
+<img width="736" height="143" alt="Image" src="https://github.com/user-attachments/assets/f517179e-c840-4061-b0cd-e854cbc0c9d8" />
+
 
 
