@@ -1814,6 +1814,34 @@ type readOnlyPoint = {
 }
 ```
 
+### 64. Record<K,V>
+
+- Constructs an object type whose property keys are Keys and whose property values are Type. This utility can be used to map the properties of a type to another type.
+
+- With Record we can enforce the developer use the keys of K in Record and Values of type/interface.
+
+```tsx
+type PageInfo = {
+  id: string;
+  title: string;
+}
+
+type PageVerbose = {
+  home: PageInfo;
+  about: PageInfo;
+  service: PageInfo;
+  contact: PageInfo;
+}
+
+type Pages =  Record<'home' | 'about' | 'service' | 'contact', PageInfo>;
+
+const Pages: Pages = {
+  home: { id: '123', title: 'home'},
+  about: { id: '123', title: 'home'},
+  service: { id: '123', title: 'home'},
+  contact: { id: '123', title: 'home'},
+}
+```
 
 
 
